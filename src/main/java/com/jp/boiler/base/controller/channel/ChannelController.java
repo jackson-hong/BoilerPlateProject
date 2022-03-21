@@ -1,11 +1,11 @@
 package com.jp.boiler.base.controller.channel;
 
+import com.jp.boiler.base.controller.param.JacksonRequest;
+import com.jp.boiler.base.controller.payload.BasePayload;
+import com.jp.boiler.base.manager.ServiceChannelManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import kr.jackson.controller.param.JacksonRequest;
-import kr.jackson.controller.payload.BasePayload;
-import kr.jackson.manager.ServiceChannelManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

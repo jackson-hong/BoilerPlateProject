@@ -1,7 +1,7 @@
 package com.jp.boiler.base.order;
 
-import kr.jackson.domain.order.Order;
-import kr.jackson.domain.order.OrderRepository;
+import com.jp.boiler.base.domain.order.Order;
+import com.jp.boiler.base.domain.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

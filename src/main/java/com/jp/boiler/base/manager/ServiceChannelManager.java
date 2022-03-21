@@ -1,10 +1,10 @@
 package com.jp.boiler.base.manager;
 
-import kr.jackson.controller.param.JacksonRequest;
-import kr.jackson.controller.payload.BasePayload;
-import kr.jackson.domain.order.Order;
-import kr.jackson.domain.order.OrderRepository;
-import kr.jackson.service.order.OrderService;
+import com.jp.boiler.base.controller.param.JacksonRequest;
+import com.jp.boiler.base.controller.payload.BasePayload;
+import com.jp.boiler.base.domain.order.Order;
+import com.jp.boiler.base.domain.order.OrderRepository;
+import com.jp.boiler.base.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ServiceChannelManager {
+
 
     private final OrderRepository orderRepository;
     private final OrderService orderService;

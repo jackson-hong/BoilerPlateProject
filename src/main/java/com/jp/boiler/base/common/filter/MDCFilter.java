@@ -1,6 +1,6 @@
 package com.jp.boiler.base.common.filter;
 
-import kr.jackson.common.type.MDCKey;
+import com.jp.boiler.base.common.type.MDCKey;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.logging.MDC;
 
