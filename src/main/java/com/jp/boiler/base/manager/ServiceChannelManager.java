@@ -37,7 +37,7 @@ public class ServiceChannelManager {
 
             orderService.saveTest();
         }catch (RuntimeException runtimeException){
-            System.out.println("catch!");
+
         }
 
         Order afterTest = orderRepository.findById(1L).get();

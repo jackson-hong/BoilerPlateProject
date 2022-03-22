@@ -2,8 +2,12 @@ package com.jp.boiler.base.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jp.boiler.base.common.code.ResultCode;
+import com.jp.boiler.base.controller.payload.ErrorPayload;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
+
+import static com.jp.boiler.base.common.code.ResultCode.RESULT_0000;
+import static com.jp.boiler.base.common.code.ResultCode.RESULT_9999;
 
 @ApiModel(description = "Response Data")
 @Getter
@@ -18,7 +22,7 @@ public class ResponseData<T> extends ResponseBase {
         this.resultData = resultData;
     }
 
-    private T resultData;
+    private final T resultData;
 
     public static <T> ResponseData<T> success(T data) {
         return new ResponseData<T>(RESULT_0000, data);

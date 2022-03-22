@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class ErrorPayload {
 
-    private String message;
+    private final String message;
 
-    private String description;
+    private final String description;
 
-    private String detailMessage;
+    private final String detailMessage;
 
-    private String requestId;
+    private final String requestId;
 
     public ErrorPayload(String message) {
         this(message, null, null);

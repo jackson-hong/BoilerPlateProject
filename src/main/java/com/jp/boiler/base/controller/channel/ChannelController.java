@@ -31,5 +31,4 @@ public class ChannelController {
         log.info("JCK-101");
         return serviceChannelManager.findJackson(jacksonRequest);
     }
-
 }

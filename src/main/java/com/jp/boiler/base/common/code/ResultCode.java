@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 public enum ResultCode {
 
     RESULT_0000("0000","성공"),
+    RESULT_9999("9999","실패"),
     RESULT_4000("4000","잘못 된 요청입니다.", HttpStatus.BAD_REQUEST);
 
     @Getter
-    private String resultCode;
+    private final String resultCode;
 
     @Getter
-    @Setter
-    private String resultMessage;
+    private final String resultMessage;
 
     @Getter
-    private HttpStatus httpStatus;
+    private final HttpStatus httpStatus;
 
     ResultCode(String resultCode, String resultMessage) {
         this(resultCode, resultMessage, HttpStatus.OK);

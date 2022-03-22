@@ -1,14 +1,16 @@
-package com.jp.boiler.base.common.filter;
+package com.jp.boiler.base.common.filter.mdc;
 
 import com.jp.boiler.base.common.type.MDCKey;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.logging.MDC;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
+@Component
 public class MDCFilter implements Filter {
 
     @Override
