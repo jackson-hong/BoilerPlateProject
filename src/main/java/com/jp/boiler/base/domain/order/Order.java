@@ -25,7 +25,7 @@ public class Order {
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date createdDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;

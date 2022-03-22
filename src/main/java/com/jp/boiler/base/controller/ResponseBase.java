@@ -19,6 +19,7 @@ public class ResponseBase {
         return resultCode.getResultMessage();
     }
 
+    public String getResultCode() {return resultCode.getResultCode();}
     private final LocalDateTime systemDt = LocalDateTime.now();
 
     public String getSystemDt() {

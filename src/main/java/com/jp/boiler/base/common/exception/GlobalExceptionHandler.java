@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BoilerException.class)
-    public ResponseEntity<ResponseErrorData> picleException(BoilerException e) {
+    public ResponseEntity<ResponseErrorData> boilerException(BoilerException e) {
         log.error("BoilerException: ", e);
         final ResultCode resultCode = e.getResultCode();
         return ResponseEntity
