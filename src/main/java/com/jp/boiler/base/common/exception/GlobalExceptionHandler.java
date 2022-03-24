@@ -7,6 +7,7 @@ import com.jp.boiler.base.controller.common.error.ResponseErrorData;
 import com.jp.boiler.base.controller.payload.ErrorPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,5 +33,4 @@ public class GlobalExceptionHandler {
                 .status(resultCode.getHttpStatus())
                 .body(new ResponseErrorData(resultCode, new ErrorPayload(resultCode.getResultMessage(), e.getDescription(), e.getStackTrace()[0].toString(), "temp")));
     }
-
 }
