@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        http.addFilterBefore(new BoilerPlateAuthorizationFilter(), SecurityContextPersistenceFilter.class);
+        /*http.addFilterBefore(new BoilerPlateAuthorizationFilter(), SecurityContextPersistenceFilter.class);*/
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -49,8 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
                 .formLogin().disable()
                 .httpBasic().disable()
-                .authorizeRequests().antMatchers("/jp/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/jp/api/v1/**").permitAll()
+                .anyRequest().denyAll();
         ;
     }
-
 }

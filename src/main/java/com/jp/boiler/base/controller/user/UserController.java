@@ -2,7 +2,7 @@ package com.jp.boiler.base.controller.user;
 
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
-import com.jp.boiler.base.domain.order.OrderRepository;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;

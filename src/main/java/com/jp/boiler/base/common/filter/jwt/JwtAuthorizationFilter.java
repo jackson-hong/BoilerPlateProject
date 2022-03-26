@@ -1,9 +1,5 @@
 package com.jp.boiler.base.common.filter.jwt;
 
-// 시큐리티 필터중 BasicAuthenticationFilter-> 권한 또는 인증 관리 Filter
-// 권한이나 인증이 필요한 주소를 요청했을 경우 하기 작성된 필터를 경우함.
-
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.jp.boiler.base.common.exception.BoilerException;
@@ -26,6 +22,8 @@ import java.io.IOException;
 
 import static com.jp.boiler.base.common.code.ResultCode.RESULT_9999;
 
+// 시큐리티 필터중 BasicAuthenticationFilter-> 권한 또는 인증 관리 Filter
+// 권한이나 인증이 필요한 주소를 요청했을 경우 하기 작성된 필터를 경우함.
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -38,13 +36,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.userRepository = userRepository;
     }
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String jwtHeader = request.getHeader("Authorization");
 
         if(isNotJwtHeaderValid(jwtHeader)){
-            throw new BoilerException(RESULT_9999);
+            chain.doFilter(request,response);
+            return;
         }
 
         String token = extractToken(jwtHeader);
@@ -66,7 +66,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             chain.doFilter(request,response);
         }
-
     }
 
     private String extractToken(String rawBearerToken){

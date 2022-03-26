@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseData<ErrorPayload>> unhandledException(Exception e) {
         log.error("unhandled", e);
         return ResponseEntity
