@@ -16,7 +16,5 @@ public class ChangeTestService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void changeName(String name){
         Order order = orderRepository.findById(1L).get();
-
-        order.changeName(name);
     }
 }
