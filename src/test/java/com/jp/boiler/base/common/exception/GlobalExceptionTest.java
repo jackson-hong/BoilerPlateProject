@@ -54,7 +54,7 @@ public class GlobalExceptionTest {
         JacksonRequest jacksonRequest = new JacksonRequest("jackson");
 
         // When & Then
-        mockMvc.perform(post("/jck/api/v1/find")
+        mockMvc.perform(post("/jp/api/v1/find")
                 .content(objectMapper.writeValueAsString(jacksonRequest))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
