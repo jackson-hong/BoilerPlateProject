@@ -2,7 +2,6 @@ package com.jp.boiler.base.common.filter.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.jp.boiler.base.common.exception.BoilerException;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
@@ -19,8 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static com.jp.boiler.base.common.code.ResultCode.RESULT_9999;
 
 // 시큐리티 필터중 BasicAuthenticationFilter-> 권한 또는 인증 관리 Filter
 // 권한이나 인증이 필요한 주소를 요청했을 경우 하기 작성된 필터를 경우함.
