@@ -25,7 +25,7 @@ public class ChannelController {
 
     private final ServiceChannelManager serviceChannelManager;
 
-    @ApiOperation("JCK-101 잭슨 조회하기")
+    @ApiOperation("JCK-101 잭슨 조회하기 [테스트용]")
     @PostMapping("/find")
     public BasePayload methodOne(@RequestBody @Valid @ApiParam("조회 정보") JacksonRequest jacksonRequest){
         log.info("JCK-101");
