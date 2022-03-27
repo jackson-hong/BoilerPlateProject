@@ -18,31 +18,10 @@ import java.util.List;
 @Service
 public class ServiceChannelManager {
 
-
     private final OrderRepository orderRepository;
     private final OrderService orderService;
 
     public BasePayload findJackson(JacksonRequest request){
-        log.info("find Jackson executed");
-
-        Order order1 = Order.builder().orderId(1L).name("1").build();
-        Order order2 = Order.builder().orderId(2L).name("1").build();
-        Order order3 = Order.builder().orderId(3L).name("1").build();
-
-        List<Order> orderList = Arrays.asList(order1, order2, order3);
-
-        orderRepository.save(order1);
-
-        try{
-
-            orderService.saveTest();
-        }catch (RuntimeException runtimeException){
-
-        }
-
-        Order afterTest = orderRepository.findById(1L).get();
-
-        System.out.println(afterTest.getName());
 
         return BasePayload.builder()
                 .resultCode("0000")

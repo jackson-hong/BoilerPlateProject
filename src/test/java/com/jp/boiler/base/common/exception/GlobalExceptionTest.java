@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = ChannelController.class)
-@Import({SecurityConfig.class})
 public class GlobalExceptionTest {
 
     @Autowired

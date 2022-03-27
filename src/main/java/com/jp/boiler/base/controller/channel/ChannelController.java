@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/jck/api/v1")
+@RequestMapping("/jp/api/v1")
 @Api(tags = "general controller")
 @RequiredArgsConstructor
 @Slf4j
