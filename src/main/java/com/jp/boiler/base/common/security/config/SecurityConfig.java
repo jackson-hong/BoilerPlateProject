@@ -3,8 +3,6 @@ package com.jp.boiler.base.common.security.config;
 import com.jp.boiler.base.common.filter.jwt.JwtAuthenticationFilter;
 import com.jp.boiler.base.common.filter.jwt.JwtAuthorizationFilter;
 import com.jp.boiler.base.domain.auth.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

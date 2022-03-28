@@ -9,7 +9,10 @@ public enum ResultCode {
 
     RESULT_0000("0000","성공"),
     RESULT_9999("9999","실패"),
-    RESULT_4000("4000","잘못 된 요청입니다.", HttpStatus.BAD_REQUEST);
+    // 토큰 인증오류
+    RESULT_4000("4000","잘못 된 요청입니다.", HttpStatus.BAD_REQUEST),
+    RESULT_4001("4001", "인증 시간이 만료되었습니다.")
+    ;
 
     @Getter
     private final String resultCode;

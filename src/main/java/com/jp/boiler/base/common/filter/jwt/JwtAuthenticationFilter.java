@@ -27,6 +27,8 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private static final int REFRESH_TOKEN_VALID_TIME = 1000*60*60; // 1시간
+
 
     // login 시도할 경우 동작하는 Filter
     @Override
@@ -66,7 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwtToken = JWT.create()
                 .withSubject("boilerPlateToken") // 제목
-                .withExpiresAt( new Date(System.currentTimeMillis() + (1000*60*60) )) // 토큰 유효기간 설정
+                .withExpiresAt( new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_TIME )) // 토큰 유효기간 설정
                 .withClaim("id",principalDetails.getUser().getId()) // key value 값으로 저장하고자 하는 값 원하는 값을 넣으면 된다.
                 .withClaim("username",principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512("boiler")); // 원하는 암호화 알고리즘 설정 개발단계에서 리터럴로 boiler 로 설정함.
