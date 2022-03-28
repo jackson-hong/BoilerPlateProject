@@ -1,7 +1,6 @@
 package com.jp.boiler.base.common.filter.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
@@ -19,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.jp.boiler.base.common.utils.jwt.JwtClaimUtil.extractClaimByKey;
+import static com.jp.boiler.base.common.utils.jwt.JwtClaimUtil.extractDecodedToken;
+
 // 시큐리티 필터중 BasicAuthenticationFilter-> 권한 또는 인증 관리 Filter
 // 권한이나 인증이 필요한 주소를 요청했을 경우 하기 작성된 필터를 경우함.
 @Slf4j
@@ -27,15 +29,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Getter
     private final UserRepository userRepository;
 
+
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository
+                                  ) {
         super(authenticationManager);
         this.userRepository = userRepository;
     }
 
-
+    // TODO 토큰 시간 만료처리작업.
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         String jwtHeader = request.getHeader("Authorization");
 
@@ -46,10 +50,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String token = extractToken(jwtHeader);
 
-        String username = JWT.require(Algorithm.HMAC512("boiler")).build().verify(token).getClaim("username").asString() ;
+        DecodedJWT decodedToken = extractDecodedToken(token);
 
         // 정상 서명
-        if(username != null){
+        if(isValidToken(decodedToken)){
+
+            String username = extractClaimByKey(decodedToken,"username");
+
             User userEntity = userRepository.findByUsername(username);
 
             // Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
@@ -71,5 +78,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private boolean isNotJwtHeaderValid(String jwtHeader){
         return jwtHeader == null || !jwtHeader.startsWith("Bearer");
+    }
+
+    private boolean isValidToken(DecodedJWT decodedToken){
+        return decodedToken.getSubject().equals("boilerPlateToken");
     }
 }
