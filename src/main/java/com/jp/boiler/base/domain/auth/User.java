@@ -2,6 +2,7 @@ package com.jp.boiler.base.domain.auth;
 
 import com.jp.boiler.base.domain.BaseEntity;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,5 +29,10 @@ public class User extends BaseEntity {
 
     @Column
     private String role;
+
+    public void encodePwd(BCryptPasswordEncoder bCryptPasswordEncoder){
+        this.password = bCryptPasswordEncoder.encode(this.password);
+    }
+
 
 }

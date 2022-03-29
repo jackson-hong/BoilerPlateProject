@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -23,6 +24,7 @@ import org.springframework.util.ObjectUtils;
 public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,16 +33,20 @@ public class PrincipalDetailsService implements UserDetailsService {
         return new PrincipalDetails(user);
     }
 
-    public void createUser(UserParam userParam){
+    public User userDataHandler(UserParam userParam){
         User user = new ModelMapper().map(userParam,User.class);
-        userValidation();
-
+        userValidation(user.getUsername());
+        user.encodePwd(bCryptPasswordEncoder);
+        return saveUser(user);
     }
 
-    public void userValidation(String username){
+    private void userValidation(String username){
         User order = userRepository.findByUsername(username);
         if(!ObjectUtils.isEmpty(order)) throw new BoilerException(ResultCode.RESULT_2000);
+    }
 
+    private User saveUser(User user){
+        return userRepository.save(user);
     }
 
 }
