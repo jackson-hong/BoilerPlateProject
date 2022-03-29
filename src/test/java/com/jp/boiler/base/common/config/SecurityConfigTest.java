@@ -154,6 +154,7 @@ public class SecurityConfigTest {
             Mockito.when(userRepository.findByUsername(anyString())).thenReturn(user);
 
             String token = JWT.create()
+                    .withSubject("boilerPlateToken")
                     .withClaim("username",USER_ID)
                     .sign(Algorithm.HMAC512("boiler"));
 
