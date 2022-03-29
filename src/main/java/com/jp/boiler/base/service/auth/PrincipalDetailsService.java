@@ -1,14 +1,20 @@
 package com.jp.boiler.base.service.auth;
 
+import com.jp.boiler.base.common.code.ResultCode;
+import com.jp.boiler.base.common.exception.BoilerException;
+import com.jp.boiler.base.controller.param.UserParam;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
+import com.jp.boiler.base.domain.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 // login 요청시 즉시 동작.
 @Service
@@ -24,4 +30,17 @@ public class PrincipalDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         return new PrincipalDetails(user);
     }
+
+    public void createUser(UserParam userParam){
+        User user = new ModelMapper().map(userParam,User.class);
+        userValidation();
+
+    }
+
+    public void userValidation(String username){
+        User order = userRepository.findByUsername(username);
+        if(!ObjectUtils.isEmpty(order)) throw new BoilerException(ResultCode.RESULT_2000);
+
+    }
+
 }
