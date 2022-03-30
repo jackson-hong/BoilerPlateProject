@@ -33,11 +33,12 @@ public class PrincipalDetailsService implements UserDetailsService {
         return new PrincipalDetails(user);
     }
 
-    public User userDataHandler(UserParam userParam){
+    public UserParam userDataHandler(UserParam userParam){
         User user = new ModelMapper().map(userParam,User.class);
         userValidation(user.getUsername());
         user.encodePwd(bCryptPasswordEncoder);
-        return saveUser(user);
+        user = saveUser(user);
+        return userParam;
     }
 
     private void userValidation(String username){

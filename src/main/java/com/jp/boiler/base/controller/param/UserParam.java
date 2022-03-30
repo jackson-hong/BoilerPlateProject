@@ -1,15 +1,18 @@
 package com.jp.boiler.base.controller.param;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.jp.boiler.base.controller.param.roles.Role;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 @Slf4j
 @Getter
 @ToString
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserParam {
 
@@ -20,9 +23,7 @@ public class UserParam {
     private String password;
 
     @NotNull
-    private String role;
-
-
-
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }

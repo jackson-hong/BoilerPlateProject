@@ -20,7 +20,7 @@ public class UserController {
     private final PrincipalDetailsService principalDetailsService;
 
     @PostMapping("join")
-    public ResponseData<User> join(@RequestBody @Validated UserParam userParam){
+    public ResponseData<UserParam> signUp(@RequestBody @Validated UserParam userParam){
         return ResponseData.success(principalDetailsService.userDataHandler(userParam));
     }
 
