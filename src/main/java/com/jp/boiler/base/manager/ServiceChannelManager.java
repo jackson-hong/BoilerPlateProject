@@ -1,7 +1,9 @@
 package com.jp.boiler.base.manager;
 
 import com.jp.boiler.base.controller.param.JacksonRequest;
+import com.jp.boiler.base.controller.param.OrderRequestParam;
 import com.jp.boiler.base.controller.payload.BasePayload;
+import com.jp.boiler.base.controller.payload.OrderRequestPayload;
 import com.jp.boiler.base.domain.order.Order;
 import com.jp.boiler.base.domain.order.OrderRepository;
 import com.jp.boiler.base.order.OrderService;
@@ -18,7 +20,6 @@ import java.util.List;
 @Service
 public class ServiceChannelManager {
 
-    private final OrderRepository orderRepository;
     private final OrderService orderService;
 
     public BasePayload findJackson(JacksonRequest request){
@@ -28,4 +29,9 @@ public class ServiceChannelManager {
                 .resultMsg("성공")
                 .build();
     };
+
+    public OrderRequestPayload saveOrder(OrderRequestParam param){
+        Order order = orderService.save(param.toEntityOrder());
+        return OrderRequestPayload.fromOrder(order);
+    }
 }
