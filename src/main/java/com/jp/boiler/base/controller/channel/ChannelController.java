@@ -30,7 +30,6 @@ public class ChannelController {
     @PostMapping("/find")
     public BasePayload methodOne(@RequestBody @Valid @ApiParam("조회 정보") JacksonRequest jacksonRequest){
         log.info("JCK-101");
-        log.info("NAME : {}",SecurityContextHolder.getContext().getAuthentication().getName());
         return serviceChannelManager.findJackson(jacksonRequest);
     }
 }

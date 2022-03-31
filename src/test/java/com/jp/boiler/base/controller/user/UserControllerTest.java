@@ -37,8 +37,6 @@ class UserControllerTest {
     @MockBean
     PrincipalDetailsService principalDetailsService;
 
-
-
     @Autowired
     private UserRepository userRepository;
 
