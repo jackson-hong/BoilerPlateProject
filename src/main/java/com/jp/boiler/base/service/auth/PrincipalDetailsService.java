@@ -2,11 +2,11 @@ package com.jp.boiler.base.service.auth;
 
 import com.jp.boiler.base.common.code.ResultCode;
 import com.jp.boiler.base.common.exception.BoilerException;
-import com.jp.boiler.base.controller.param.UserParam;
+import com.jp.boiler.base.controller.param.user.UserParam;
+import com.jp.boiler.base.controller.payload.user.UserPayload;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
-import com.jp.boiler.base.domain.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -33,12 +33,12 @@ public class PrincipalDetailsService implements UserDetailsService {
         return new PrincipalDetails(user);
     }
 
-    public UserParam userDataHandler(UserParam userParam){
+    public UserPayload userDataHandler(UserParam userParam){
         User user = new ModelMapper().map(userParam,User.class);
         userValidation(user.getUsername());
         user.encodePwd(bCryptPasswordEncoder);
         user = saveUser(user);
-        return userParam;
+        return userPayloadBuilder(user);
     }
 
     private void userValidation(String username){
@@ -48,6 +48,13 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     private User saveUser(User user){
         return userRepository.save(user);
+    }
+
+    private UserPayload userPayloadBuilder(User user){
+        return UserPayload.builder()
+                .username(user.getUsername())
+                .role(user.getRole())
+                .build();
     }
 
 }

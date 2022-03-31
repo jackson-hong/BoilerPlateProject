@@ -8,6 +8,7 @@ import com.jp.boiler.base.common.exception.BoilerException;
 import com.jp.boiler.base.common.security.config.SecurityConfig;
 import com.jp.boiler.base.controller.channel.ChannelController;
 import com.jp.boiler.base.controller.param.JacksonRequest;
+import com.jp.boiler.base.controller.param.roles.Role;
 import com.jp.boiler.base.controller.payload.BasePayload;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
@@ -41,7 +42,7 @@ public class SecurityConfigTest {
     private final User user = User.builder()
             .id(1)
             .username(USER_ID)
-            .role("USER")
+            .role(Role.ROLE_USER)
             .password("$2a$10$aRWuKJprJ11TFV04HO2gIeK3cCZLLJhimRdtl3Q3wftyePyjfZ3Oa")
             .build();
 

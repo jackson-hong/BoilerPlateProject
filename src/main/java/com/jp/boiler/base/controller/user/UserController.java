@@ -1,8 +1,8 @@
 package com.jp.boiler.base.controller.user;
 
 import com.jp.boiler.base.controller.ResponseData;
-import com.jp.boiler.base.controller.param.UserParam;
-import com.jp.boiler.base.domain.auth.User;
+import com.jp.boiler.base.controller.param.user.UserParam;
+import com.jp.boiler.base.controller.payload.user.UserPayload;
 import com.jp.boiler.base.service.auth.PrincipalDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ public class UserController {
     private final PrincipalDetailsService principalDetailsService;
 
     @PostMapping("join")
-    public ResponseData<UserParam> signUp(@RequestBody @Validated UserParam userParam){
+    public ResponseData<UserPayload> signUp(@RequestBody @Validated UserParam userParam){
         return ResponseData.success(principalDetailsService.userDataHandler(userParam));
     }
 

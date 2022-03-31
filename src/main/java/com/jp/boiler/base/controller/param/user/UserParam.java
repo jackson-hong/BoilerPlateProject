@@ -1,4 +1,4 @@
-package com.jp.boiler.base.controller.param;
+package com.jp.boiler.base.controller.param.user;
 
 import com.jp.boiler.base.controller.param.roles.Role;
 import lombok.*;

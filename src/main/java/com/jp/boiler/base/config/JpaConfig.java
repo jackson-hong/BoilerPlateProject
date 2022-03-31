@@ -19,7 +19,13 @@ public class JpaConfig {
         return () -> Optional.of(
                 Optional.ofNullable(SecurityContextHolder.getContext())
                         .map(SecurityContext::getAuthentication)
-                        .map(Authentication::getName)
+                        .map(authentication -> convertAnonymousToAdmin(authentication.getName()))
                         .orElse("ADMIN"));
+    }
+
+    private String convertAnonymousToAdmin(String authName){
+        // SpringSecurity Default user policy -> anonymousUser
+        if(authName.equals("anonymousUser")) return "ADMIN";
+        else return authName;
     }
 }

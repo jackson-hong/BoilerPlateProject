@@ -17,7 +17,7 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(()-> user.getRole());
+        authorities.add(()-> user.getRole().getRole());
         return authorities;
     }
 
