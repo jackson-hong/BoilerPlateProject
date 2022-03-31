@@ -25,4 +25,7 @@ public class Order extends BaseEntity {
     @Column
     private String name;
 
+    @Column
+    private String phoneNum;
+
 }

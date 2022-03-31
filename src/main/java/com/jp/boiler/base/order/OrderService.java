@@ -17,24 +17,8 @@ public class OrderService {
     private final PlatformTransactionManager manager;
     private final ChangeTestService changeTestService;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void save(Order order){
-        orderRepository.save(order);
-        System.out.println("INNER TRANS ENDS");
-//        TransactionStatus status = manager.getTransaction();
-    }
-
-    @Transactional
-    public void saveTest(){
-
-        Order order1 = orderRepository.findById(1L).get();
-
-        changeTestService.changeName("jackson");
-
-        changeTestService.changeName("test");
-
-        throw new RuntimeException("NO!");
-
+    public Order save(Order order){
+        return orderRepository.save(order);
     }
 
 }
