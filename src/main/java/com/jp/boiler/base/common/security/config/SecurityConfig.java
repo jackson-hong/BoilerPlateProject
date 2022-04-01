@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/v2/api-docs",
             "/webjars/**",
-            "/h2-console/**"
+            "/h2-console/**",
+            "/jp/api/v1/join"
     };
 
     @Override
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/jp/api/v1/**").permitAll()
-                .anyRequest().denyAll();
+                .anyRequest().authenticated();
         ;
     }
 }

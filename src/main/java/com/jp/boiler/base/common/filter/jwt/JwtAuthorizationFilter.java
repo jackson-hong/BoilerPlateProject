@@ -6,11 +6,14 @@ import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -44,7 +47,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader("Authorization");
 
         if(isNotJwtHeaderValid(jwtHeader)){
-            chain.doFilter(request,response);
+            response.setStatus(403);
             return;
         }
 
