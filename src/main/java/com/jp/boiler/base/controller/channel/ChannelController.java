@@ -1,5 +1,6 @@
 package com.jp.boiler.base.controller.channel;
 
+import com.jp.boiler.base.common.annotation.ApiCode;
 import com.jp.boiler.base.controller.param.JacksonRequest;
 import com.jp.boiler.base.controller.payload.BasePayload;
 import com.jp.boiler.base.manager.ServiceChannelManager;
@@ -28,8 +29,8 @@ public class ChannelController {
 
     @ApiOperation("JCK-101 잭슨 조회하기 [테스트용]")
     @PostMapping("/find")
+    @ApiCode("JCK-101")
     public BasePayload methodOne(@RequestBody @Valid @ApiParam("조회 정보") JacksonRequest jacksonRequest){
-        log.info("JCK-101");
         return serviceChannelManager.findJackson(jacksonRequest);
     }
 }

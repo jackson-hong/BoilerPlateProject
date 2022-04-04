@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jp.boiler.base.common.exception.BoilerException;
+import com.jp.boiler.base.common.interceptor.ApiCodeInterceptor;
 import com.jp.boiler.base.common.security.config.SecurityConfig;
 import com.jp.boiler.base.controller.channel.ChannelController;
 import com.jp.boiler.base.controller.param.JacksonRequest;
@@ -126,7 +127,7 @@ public class SecurityConfigTest {
     @Nested
     @AutoConfigureMockMvc
     @WebMvcTest(controllers = ChannelController.class)
-    @Import({SecurityConfig.class, CorsFilter.class})
+    @Import({SecurityConfig.class, CorsFilter.class, ApiCodeInterceptor.class})
     public class CaseAuthorized{
 
         @MockBean

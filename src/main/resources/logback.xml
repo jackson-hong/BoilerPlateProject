@@ -1,7 +1,7 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%logger{36}.%method:line%line][%X{trxId}] - %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%logger{36}.%method:line%line][%X{trxId}] %X{apiCode} - %msg%n</pattern>
         </encoder>
     </appender>
     <root name="org.springframework" level="info" additivity="false">
