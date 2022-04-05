@@ -1,4 +1,4 @@
-package com.jp.boiler.base.utils;
+package com.jp.boiler.base.support.utils;
 
 
 public class Logger {
