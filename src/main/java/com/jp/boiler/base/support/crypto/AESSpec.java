@@ -11,6 +11,7 @@ public class AESSpec {
 
     private String name;
     private String key;
+    private String iv;
     private int bitSize;
     private boolean enabled;
 }
