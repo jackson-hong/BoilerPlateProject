@@ -2,6 +2,7 @@ package com.jp.boiler.base.service.auth.verifier;
 
 import com.jp.boiler.base.common.code.ResultCode;
 import com.jp.boiler.base.common.exception.BoilerException;
+import com.jp.boiler.base.common.regex.RegexUtils;
 import com.jp.boiler.base.controller.param.user.UserParam;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
@@ -12,6 +13,8 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.jp.boiler.base.common.regex.RegexUtils.isPatternMatched;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ public class SignUpDataVerifier {
 
     public void validateUserParam(UserParam userParam){
         isIdExist(userParam.getUsername());
+        isPasswordAppropriate(userParam.getPassword());
     }
 
     // 향후 회원 존재 여부 확인 API 사용 가능.
@@ -41,13 +45,26 @@ public class SignUpDataVerifier {
         return true;
     }
 
-    public boolean isPasswordAppropriate(String password){
-        
-        return true;
+    public void isPasswordAppropriate(String password){
+        checkPasswordMatched(password);
+        sameAlphabetAndNumberExist(password);
+        sameSymbolExist(password);
+        hasBlankPattern(password);
     }
 
     private void checkPasswordMatched(String password){
-        Pattern passPattern = Pattern.compile(PASSWORD_RULE_REGX);
-        Matcher matcher = passPattern.matcher(password);
+        if(!isPatternMatched(PASSWORD_RULE_REGX, password)) throw new BoilerException(null);
+    }
+
+    private void sameAlphabetAndNumberExist(String password){
+        if(isPatternMatched(SAME_ALPHABET_NUMBER_PATTERN, password)) throw new BoilerException(null);
+    }
+
+    private void sameSymbolExist(String password){
+        if(isPatternMatched(SAME_SYMBOL_PATTERN,password)) throw new BoilerException(null);
+    }
+
+    private void hasBlankPattern(String password){
+        if(isPatternMatched(BLANK_PATTERN,password)) throw new BoilerException(null);
     }
 }
