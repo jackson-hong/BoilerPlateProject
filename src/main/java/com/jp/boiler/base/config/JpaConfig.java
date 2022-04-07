@@ -14,6 +14,8 @@ import java.util.Optional;
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class JpaConfig {
 
+    private static final String NAME_DEFAULT_VALUE = "anonymousUser";
+
     @Bean
     public AuditorAware<String> auditorProvider(){
         return () -> Optional.of(
@@ -25,7 +27,7 @@ public class JpaConfig {
 
     private String convertAnonymousToAdmin(String authName){
         // SpringSecurity Default user policy -> anonymousUser
-        if(authName.equals("anonymousUser")) return "ADMIN";
+        if(authName.equals(NAME_DEFAULT_VALUE)) return "ADMIN";
         else return authName;
     }
 }

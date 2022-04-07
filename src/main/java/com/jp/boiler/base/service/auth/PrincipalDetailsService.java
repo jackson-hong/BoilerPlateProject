@@ -7,6 +7,7 @@ import com.jp.boiler.base.controller.payload.user.UserPayload;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
+import com.jp.boiler.base.service.auth.verifier.SignUpDataVerifier;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,8 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final SignUpDataVerifier signUpDataVerifier;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("[USER_DETAILS] Security login Auth process start");
@@ -35,15 +38,10 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     public UserPayload userDataHandler(UserParam userParam){
         User user = new ModelMapper().map(userParam,User.class);
-        userValidation(user.getUsername());
+        signUpDataVerifier.validateUserParam(userParam);
         user.encodePwd(bCryptPasswordEncoder);
         user = saveUser(user);
         return userPayloadBuilder(user);
-    }
-
-    private void userValidation(String username){
-        User order = userRepository.findByUsername(username);
-        if(!ObjectUtils.isEmpty(order)) throw new BoilerException(ResultCode.RESULT_2000);
     }
 
     private User saveUser(User user){
