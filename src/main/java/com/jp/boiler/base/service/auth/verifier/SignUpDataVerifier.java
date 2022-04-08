@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import static com.jp.boiler.base.common.code.ResultCode.*;
 import static com.jp.boiler.base.common.regex.RegexUtils.isPatternMatched;
 
 @Slf4j
@@ -31,7 +29,6 @@ public class SignUpDataVerifier {
     private static final String SAME_ALPHABET_NUMBER_PATTERN = "(\\w)\\1\\1";
     // 같은 문자
     private static final String SAME_SYMBOL_PATTERN = "([$@!%*#?&.])\\1\\1";
-    private static final String BLANK_PATTERN = "(\\s)";
 
     public void validateUserParam(UserParam userParam){
         isIdExist(userParam.getUsername());
@@ -49,22 +46,18 @@ public class SignUpDataVerifier {
         checkPasswordMatched(password);
         sameAlphabetAndNumberExist(password);
         sameSymbolExist(password);
-        hasBlankPattern(password);
     }
 
     private void checkPasswordMatched(String password){
-        if(!isPatternMatched(PASSWORD_RULE_REGX, password)) throw new BoilerException(null);
+        if(!isPatternMatched(PASSWORD_RULE_REGX, password)) throw new BoilerException(RESULT_1001);
     }
 
     private void sameAlphabetAndNumberExist(String password){
-        if(isPatternMatched(SAME_ALPHABET_NUMBER_PATTERN, password)) throw new BoilerException(null);
+        if(isPatternMatched(SAME_ALPHABET_NUMBER_PATTERN, password)) throw new BoilerException(RESULT_1002);
     }
 
     private void sameSymbolExist(String password){
-        if(isPatternMatched(SAME_SYMBOL_PATTERN,password)) throw new BoilerException(null);
+        if(isPatternMatched(SAME_SYMBOL_PATTERN,password)) throw new BoilerException(RESULT_1002);
     }
 
-    private void hasBlankPattern(String password){
-        if(isPatternMatched(BLANK_PATTERN,password)) throw new BoilerException(null);
-    }
 }
