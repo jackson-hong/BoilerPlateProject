@@ -29,7 +29,6 @@ class SignUpDataVerifierTest {
     private static final Set<String> MATCHED_PASSWORDS = new HashSet<>();
     private static final List<String> SAME_ALPH_AND_SYMBOL_VIOLATION_PASSWORDS = new ArrayList<>();
     private static final List<String> BLANK_VIOLATION_PASSWORDS = new ArrayList<>();
-
     private static final String ANOTHER_SYMBOL_CASE = "iansystemA!212*5️⃣";
 
     static {
@@ -49,10 +48,9 @@ class SignUpDataVerifierTest {
         BLANK_VIOLATION_PASSWORDS.add("as fgHiJK12!@");
         BLANK_VIOLATION_PASSWORDS.add("tryCatc 12#@");
         BLANK_VIOLATION_PASSWORDS.add("ians stemA!212*");
-
         // 다른문자열 유입 케이스
-
     }
+
     @Test
     @DisplayName("비밀번호 유효성테스트")
     void password_check_test(){

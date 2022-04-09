@@ -3,13 +3,13 @@ package com.jp.boiler.base.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jp.boiler.base.common.code.ResultCode;
 import com.jp.boiler.base.controller.payload.ErrorPayload;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import static com.jp.boiler.base.common.code.ResultCode.RESULT_0000;
 import static com.jp.boiler.base.common.code.ResultCode.RESULT_9999;
 
-@ApiModel(description = "Response Data")
+@Schema(description = "Response Data")
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseData<T> extends ResponseBase {

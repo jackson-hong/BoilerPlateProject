@@ -21,10 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepository;
 
     private static final String [] AUTH_WHITELIST = {
-            "/swagger-resources/**",
-            "/swagger-ui.html",
-            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/configuration/ui",
+            "/swagger-resources",
+            "/swagger-ui/**",
             "/webjars/**",
+            "/swagger/**",
             "/h2-console/**",
             "/jp/api/v1/join"
     };
@@ -38,8 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        /*http.addFilterBefore(new BoilerPlateAuthorizationFilter(), SecurityContextPersistenceFilter.class);*/
+
         http.headers().frameOptions().disable();
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(corsFilter) // cors 정책 제외
@@ -49,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/jp/api/v1/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         ;
     }
 }

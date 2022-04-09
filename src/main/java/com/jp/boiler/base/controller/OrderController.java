@@ -6,9 +6,9 @@ import com.jp.boiler.base.controller.payload.BasePayload;
 import com.jp.boiler.base.controller.payload.OrderRequestPayload;
 import com.jp.boiler.base.domain.order.Order;
 import com.jp.boiler.base.manager.ServiceChannelManager;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,16 +21,16 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/jp/api/v1/order")
-@Api(tags = "Order Controller")
+@Tag(name = "Order Controller")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
 
     private final ServiceChannelManager serviceChannelManager;
 
-    @ApiOperation("주문 생성")
+    @Operation(description = "주문 생성")
     @PostMapping
-    public ResponseData<OrderRequestPayload> save(@RequestBody @Valid @ApiParam("주문 입력 정보") OrderRequestParam orderRequestParam){
+    public ResponseData<OrderRequestPayload> save(@RequestBody @Valid @Parameter(name = "주문 입력 정보") OrderRequestParam orderRequestParam){
         return ResponseData.success(serviceChannelManager.saveOrder(orderRequestParam));
     }
 
