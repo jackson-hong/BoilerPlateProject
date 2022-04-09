@@ -8,12 +8,17 @@ import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.filter.CorsFilter;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,11 +40,12 @@ public class UserControllerMockMvcTest {
 
     @Test
     @DisplayName("회원가입 테스트")
+    @Transactional
     void signInTest() throws Exception {
 
         UserParam userParam = UserParam.builder()
                 .username("test")
-                .password("12345")
+                .password("trycatcH12!@")
                 .role(Role.ROLE_ADMIN)
                 .build();
 
@@ -60,17 +66,18 @@ public class UserControllerMockMvcTest {
 
     @Test
     @DisplayName("중복 회원가입 테스트")
+    @Transactional
     void conflictSignInTest() throws Exception {
 
         UserParam userParam = UserParam.builder()
                 .username("test")
-                .password("12345")
+                .password("trycatcH12!@")
                 .role(Role.ROLE_ADMIN)
                 .build();
 
         UserParam userParam1 = UserParam.builder()
                 .username("test")
-                .password("12345")
+                .password("trycatcH12!@")
                 .role(Role.ROLE_ADMIN)
                 .build();
 
@@ -89,11 +96,10 @@ public class UserControllerMockMvcTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(status().is5xxServerError())
                 .andExpect((result) ->
                         assertTrue(result.getResolvedException().getClass().isAssignableFrom(BoilerException.class))
-                );
+                )
+                .andExpect(jsonPath("resultData.message").value("이미 존재하는 회원입니다."));
 
     }
 
