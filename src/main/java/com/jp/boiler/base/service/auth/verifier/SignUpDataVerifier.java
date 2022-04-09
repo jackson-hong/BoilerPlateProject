@@ -21,15 +21,6 @@ import static com.jp.boiler.base.common.regex.RegexUtils.isPatternMatched;
 public class SignUpDataVerifier {
 
     private final UserRepository userRepository;
-
-    /*private static final int MIN = 8;
-    private static  final int MAX = 20;
-    // 영어, 숫자, 특수문자 포함 8 ~ 20자
-    private static final String PASSWORD_RULE_REGX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&.])[A-Za-z\\d$@!%*#?&.]{"+MIN+","+MAX+"}$";
-    // 같은 알파벳 또는 숫자가 3개 이상 겹칠 수 없음
-    private static final String SAME_ALPHABET_NUMBER_PATTERN = "(\\w)\\1\\1";
-    // 같은 문자
-    private static final String SAME_SYMBOL_PATTERN = "([$@!%*#?&.])\\1\\1";*/
     private final PasswordRegularExpressionProperties regularExpressionProperties;
 
     public void validateUserParam(UserParam userParam){
