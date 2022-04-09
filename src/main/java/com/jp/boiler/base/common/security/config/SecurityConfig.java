@@ -2,6 +2,7 @@ package com.jp.boiler.base.common.security.config;
 
 import com.jp.boiler.base.common.filter.jwt.JwtAuthenticationFilter;
 import com.jp.boiler.base.common.filter.jwt.JwtAuthorizationFilter;
+import com.jp.boiler.base.controller.param.roles.Role;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/jp/api/v1/**").permitAll()
-                .anyRequest().permitAll();
+                .antMatchers("/admin").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
+                .antMatchers("/user").hasRole(Role.ROLE_USER.getSecurityRoleValue())
+        ;
         ;
     }
 }
