@@ -57,9 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/jp/api/v1/**").permitAll()
-                .antMatchers("/admin").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
-                .antMatchers("/user").hasRole(Role.ROLE_USER.getSecurityRoleValue())
-        ;
+
+
+
+
+
+                // 테스트용 url
+                .antMatchers("/admin-test").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
+                .antMatchers("/user-test").hasRole(Role.ROLE_USER.getSecurityRoleValue())
+                .antMatchers("/manager-test").hasRole(Role.ROLE_MANAGER.getSecurityRoleValue())
         ;
     }
 }

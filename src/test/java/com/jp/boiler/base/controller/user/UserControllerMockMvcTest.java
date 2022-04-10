@@ -166,6 +166,138 @@ public class UserControllerMockMvcTest {
         Assertions.assertEquals(username,"tryCatch@gmail.com");
     }
 
+    @Test
+    @DisplayName("권한별 url 접근 테스트[user]")
+    @Transactional
+    void accessByAuthorizeUserTest() throws Exception {
+
+        UserParam joinParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .role(Role.ROLE_USER)
+                .build();
+
+        mockMvc.perform(post("/jp/api/v1/join")
+                        .content(objectMapper.writeValueAsString(joinParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("resultData.username").value("tryCatch@gmail.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        UserParam loginParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .build();
+
+        MvcResult loginResult = mockMvc.perform(post("/login")
+                        .content(objectMapper.writeValueAsString(loginParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        HttpServletResponse response = loginResult.getResponse();
+        // token 받아옴.
+        String token = response.getHeader(jwtProperties.getCoreHeader());
+
+        mockMvc.perform(post("/user-test").header(jwtProperties.getCoreHeader(),token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+
+    }
+
+    @Test
+    @DisplayName("권한별 url 접근 테스트[manager]")
+    @Transactional
+    void accessByAuthorizeManagerTest() throws Exception {
+
+        UserParam joinParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .role(Role.ROLE_MANAGER)
+                .build();
+
+        mockMvc.perform(post("/jp/api/v1/join")
+                        .content(objectMapper.writeValueAsString(joinParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("resultData.username").value("tryCatch@gmail.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        UserParam loginParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .build();
+
+        MvcResult loginResult = mockMvc.perform(post("/login")
+                        .content(objectMapper.writeValueAsString(loginParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        HttpServletResponse response = loginResult.getResponse();
+        // token 받아옴.
+        String token = response.getHeader(jwtProperties.getCoreHeader());
+
+        mockMvc.perform(post("/manager-test").header(jwtProperties.getCoreHeader(),token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+    }
+
+    @Test
+    @DisplayName("권한별 url 접근 테스트[admin]")
+    @Transactional
+    void accessByAuthorizeAdminTest() throws Exception {
+
+        UserParam joinParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .role(Role.ROLE_ADMIN)
+                .build();
+
+        mockMvc.perform(post("/jp/api/v1/join")
+                        .content(objectMapper.writeValueAsString(joinParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("resultData.username").value("tryCatch@gmail.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        UserParam loginParam = UserParam.builder()
+                .username("tryCatch@gmail.com")
+                .password("trycatcH12!@")
+                .build();
+
+        MvcResult loginResult = mockMvc.perform(post("/login")
+                        .content(objectMapper.writeValueAsString(loginParam))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        HttpServletResponse response = loginResult.getResponse();
+        // token 받아옴.
+        String token = response.getHeader(jwtProperties.getCoreHeader());
+
+        mockMvc.perform(post("/admin-test").header(jwtProperties.getCoreHeader(),token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
     private String extractToken(String rawBearerToken){
         return rawBearerToken.replace(jwtProperties.getCoreHeaderTypeWithBlankSpace(),"");
     }
