@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
+import com.jp.boiler.base.properties.JwtProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,20 +32,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Getter
     private final UserRepository userRepository;
+    private final JwtProperties jwtProperties;
 
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserRepository userRepository
+                                  UserRepository userRepository,
+                                  JwtProperties jwtProperties
                                   ) {
         super(authenticationManager);
         this.userRepository = userRepository;
+        this.jwtProperties = jwtProperties;
     }
 
     // TODO 토큰 시간 만료처리작업.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader(jwtProperties.getCoreHeader());
 
         if(isNotJwtHeaderValid(jwtHeader)){
             response.setStatus(403);
@@ -58,7 +62,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         // 정상 서명
         if(isValidToken(decodedToken)){
 
-            String username = extractClaimByKey(decodedToken,"username");
+            String username = extractClaimByKey(decodedToken,jwtProperties.getClaim().getUsername());
 
             User userEntity = userRepository.findByUsername(username);
 
@@ -76,14 +80,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private String extractToken(String rawBearerToken){
-        return rawBearerToken.replace("Bearer ","");
+        return rawBearerToken.replace(jwtProperties.getCoreHeaderTypeWithBlankSpace(),"");
     }
 
     private boolean isNotJwtHeaderValid(String jwtHeader){
-        return jwtHeader == null || !jwtHeader.startsWith("Bearer");
+        return jwtHeader == null || !jwtHeader.startsWith(jwtProperties.getCoreHeader());
     }
 
     private boolean isValidToken(DecodedJWT decodedToken){
-        return decodedToken.getSubject().equals("boilerPlateToken");
+        return decodedToken.getSubject().equals(jwtProperties.getSubject());
     }
 }

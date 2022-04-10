@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jp.boiler.base.domain.auth.PrincipalDetails;
 import com.jp.boiler.base.domain.auth.User;
+import com.jp.boiler.base.properties.JwtProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +28,7 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private static final int REFRESH_TOKEN_VALID_TIME = 1000*60*60; // 1시간
-
+    private final JwtProperties jwtProperties;
 
     // login 시도할 경우 동작하는 Filter
     @Override
@@ -67,12 +67,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
         String jwtToken = JWT.create()
-                .withSubject("boilerPlateToken") // 제목
-                .withExpiresAt( new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_TIME )) // 토큰 유효기간 설정
-                .withClaim("id",principalDetails.getUser().getId()) // key value 값으로 저장하고자 하는 값 원하는 값을 넣으면 된다.
-                .withClaim("username",principalDetails.getUser().getUsername())
-                .sign(Algorithm.HMAC512("boiler")); // 원하는 암호화 알고리즘 설정 개발단계에서 리터럴로 boiler 로 설정함.
+                .withSubject(jwtProperties.getSubject()) // 제목
+                .withExpiresAt( new Date(System.currentTimeMillis() + jwtProperties.getRefreshTime() )) // 토큰 유효기간 설정
+                .withClaim(jwtProperties.getClaim().getId(),principalDetails.getUser().getId()) // key value 값으로 저장하고자 하는 값 원하는 값을 넣으면 된다.
+                .withClaim(jwtProperties.getClaim().getUsername(),principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512(jwtProperties.getAlgorithm())); // 원하는 암호화 알고리즘 설정 개발단계에서 리터럴로 boiler 로 설정함.
 
-        response.addHeader("Authorization","Bearer "+jwtToken);
+        response.addHeader(jwtProperties.getCoreHeader(),jwtProperties.getCoreHeaderTypeWithBlankSpace()+jwtToken);
     }
 }

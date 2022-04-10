@@ -36,7 +36,6 @@ class UserControllerTest {
 
     @MockBean
     PrincipalDetailsService principalDetailsService;
-    
 
     @Test
     @DisplayName("파라미터 검증 테스트")
