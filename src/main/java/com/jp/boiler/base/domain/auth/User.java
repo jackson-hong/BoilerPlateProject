@@ -36,5 +36,4 @@ public class User extends BaseEntity {
         this.password = bCryptPasswordEncoder.encode(this.password);
     }
 
-
 }
