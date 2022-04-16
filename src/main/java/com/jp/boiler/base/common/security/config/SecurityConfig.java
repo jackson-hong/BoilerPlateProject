@@ -2,7 +2,9 @@ package com.jp.boiler.base.common.security.config;
 
 import com.jp.boiler.base.common.filter.jwt.JwtAuthenticationFilter;
 import com.jp.boiler.base.common.filter.jwt.JwtAuthorizationFilter;
+import com.jp.boiler.base.controller.param.roles.Role;
 import com.jp.boiler.base.domain.auth.UserRepository;
+import com.jp.boiler.base.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
     private final UserRepository userRepository;
+
+    private final JwtProperties jwtProperties;
 
     private static final String [] AUTH_WHITELIST = {
             "/v3/api-docs",
@@ -47,13 +51,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(corsFilter) // cors 정책 제외
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtProperties))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository, jwtProperties))
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/jp/api/v1/**").permitAll()
-                .anyRequest().permitAll();
+
+
+
+
+
+                // 테스트용 url
+                .antMatchers("/admin-test").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
+                .antMatchers("/user-test").hasRole(Role.ROLE_USER.getSecurityRoleValue())
+                .antMatchers("/manager-test").hasRole(Role.ROLE_MANAGER.getSecurityRoleValue())
         ;
     }
 }

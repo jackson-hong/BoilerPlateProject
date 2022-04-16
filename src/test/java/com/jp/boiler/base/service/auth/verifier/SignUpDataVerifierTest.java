@@ -85,7 +85,6 @@ class SignUpDataVerifierTest {
                 // 정상 패스워드 인증 테스트
                 () -> assertDoesNotThrow(()->{
                     MATCHED_PASSWORDS.forEach(password -> {
-                        log.info(password);
                         signUpDataVerifier.isPasswordAppropriate(password);
                     });
                 },"패스워드 정상 인증 케이스"),

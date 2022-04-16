@@ -37,29 +37,6 @@ class UserControllerTest {
     @MockBean
     PrincipalDetailsService principalDetailsService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Test
-    @DisplayName("회원 가입 테스트")
-    void joinTest() throws Exception {
-        User user = User.builder()
-                .username("test")
-                .password("1234")
-                .role(Role.ROLE_USER)
-                .build();
-
-        mockMvc.perform(post("/jp/api/v1/join")
-                        .content(objectMapper.writeValueAsString(user))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                ;
-
-        Assertions.assertNotNull(userRepository.findByUsername("test"));
-    }
-
     @Test
     @DisplayName("파라미터 검증 테스트")
     void isParameterValidTest() throws Exception {
@@ -80,29 +57,6 @@ class UserControllerTest {
                         assertTrue(result.getResolvedException().getClass().isAssignableFrom(MethodArgumentNotValidException.class))
                 )
         ;
-    }
-
-    @Test
-    @DisplayName("회원가입 테스트")
-    void signInTest() throws Exception {
-
-        UserParam userParam = UserParam.builder()
-                .username("test")
-                .password("12345")
-                .role(Role.ROLE_ADMIN)
-                .build();
-
-        mockMvc.perform(post("/jp/api/v1/join")
-                        .content(objectMapper.writeValueAsString(userParam))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("resultCode").value("0000"))
-                .andExpect(jsonPath("resultMessage").value("성공"))
-                .andExpect(jsonPath("resultData.username").value("test"));
-
-
     }
 
 

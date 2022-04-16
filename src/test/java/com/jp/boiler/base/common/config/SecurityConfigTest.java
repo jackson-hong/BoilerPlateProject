@@ -13,6 +13,7 @@ import com.jp.boiler.base.controller.payload.BasePayload;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import com.jp.boiler.base.manager.ServiceChannelManager;
+import com.jp.boiler.base.properties.JwtProperties;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class SecurityConfigTest {
 
     @Nested
     @AutoConfigureMockMvc
-    @Import({SecurityConfig.class, CorsFilter.class})
+    @Import({SecurityConfig.class, CorsFilter.class, JwtProperties.class})
     public class CaseTokenVarified{
 
         private final int REFRESH_TOKEN_VALID_TIME = 1000; // 1초
@@ -61,10 +62,11 @@ public class SecurityConfigTest {
         @Test
         @DisplayName("Token 시간 만료 테스트")
         @Order(2)
+        @Disabled //만료 테스트라 대체로 오래걸림
         void tokenExpirationTest(){
 
             try {
-                Thread.sleep(1500);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -93,7 +95,7 @@ public class SecurityConfigTest {
     @Nested
     @AutoConfigureMockMvc
     @WebMvcTest(controllers = ChannelController.class)
-    @Import({SecurityConfig.class, CorsFilter.class})
+    @Import({SecurityConfig.class, CorsFilter.class, JwtProperties.class})
     public class CaseNonAuthorized{
 
         @MockBean
@@ -126,7 +128,7 @@ public class SecurityConfigTest {
     @Nested
     @AutoConfigureMockMvc
     @WebMvcTest(controllers = ChannelController.class)
-    @Import({SecurityConfig.class, CorsFilter.class})
+    @Import({SecurityConfig.class, CorsFilter.class, JwtProperties.class})
     public class CaseAuthorized{
 
         @MockBean
@@ -139,6 +141,9 @@ public class SecurityConfigTest {
 
         @MockBean
         ServiceChannelManager serviceChannelManager;
+
+        @Autowired
+        JwtProperties jwtProperties;
 
         @Test
         @DisplayName("Token와 함께 요청하는 경우")
@@ -155,18 +160,18 @@ public class SecurityConfigTest {
             Mockito.when(userRepository.findByUsername(anyString())).thenReturn(user);
 
             String token = JWT.create()
-                    .withSubject("boilerPlateToken")
-                    .withClaim("username",USER_ID)
-                    .sign(Algorithm.HMAC512("boiler"));
+                    .withSubject(jwtProperties.getSubject())
+                    .withClaim(jwtProperties.getClaim().getUsername(),USER_ID)
+                    .sign(Algorithm.HMAC512(jwtProperties.getAlgorithm()));
 
             // When & Then
-            mockMvc.perform(post("/jp/api/v1/find")
-                    .header("Authorization", "Bearer "+ token)
+            mockMvc.perform(post("/user")
+                    .header(jwtProperties.getCoreHeader(), jwtProperties.getCoreHeaderTypeWithBlankSpace()+ token)
                     .content(objectMapper.writeValueAsString(jacksonRequest))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                     .andDo(print())
-                    .andExpect(status().isOk());
+                    .andExpect(status().isNotFound());
         }
     }
 }
