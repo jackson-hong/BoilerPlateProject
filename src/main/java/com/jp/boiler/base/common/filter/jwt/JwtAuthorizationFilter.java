@@ -84,7 +84,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private boolean isNotJwtHeaderValid(String jwtHeader){
-        return jwtHeader == null || !jwtHeader.startsWith(jwtProperties.getCoreHeader());
+        return jwtHeader == null || !jwtHeader.startsWith(jwtProperties.getHeaderType());
     }
 
     private boolean isValidToken(DecodedJWT decodedToken){
