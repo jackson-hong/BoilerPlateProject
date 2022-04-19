@@ -9,16 +9,9 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final LoggingInterceptor loggingInterceptor;
-
-
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.setPatternParser(new PathPatternParser());
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
