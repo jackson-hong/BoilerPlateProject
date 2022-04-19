@@ -80,7 +80,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private String extractToken(String rawBearerToken){
-        return rawBearerToken.replace(jwtProperties.getCoreHeaderTypeWithBlankSpace(),"");
+        return rawBearerToken.replace(jwtProperties.getHeaderTypeWithBlankSpace(),"");
     }
 
     private boolean isNotJwtHeaderValid(String jwtHeader){

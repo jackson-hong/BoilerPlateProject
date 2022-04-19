@@ -299,7 +299,7 @@ public class UserControllerMockMvcTest {
     }
 
     private String extractToken(String rawBearerToken){
-        return rawBearerToken.replace(jwtProperties.getCoreHeaderTypeWithBlankSpace(),"");
+        return rawBearerToken.replace(jwtProperties.getHeaderTypeWithBlankSpace(),"");
     }
 
 }

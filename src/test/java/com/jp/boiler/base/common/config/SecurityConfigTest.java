@@ -166,7 +166,7 @@ public class SecurityConfigTest {
 
             // When & Then
             mockMvc.perform(post("/user")
-                    .header(jwtProperties.getCoreHeader(), jwtProperties.getCoreHeaderTypeWithBlankSpace()+ token)
+                    .header(jwtProperties.getCoreHeader(), jwtProperties.getHeaderTypeWithBlankSpace()+ token)
                     .content(objectMapper.writeValueAsString(jacksonRequest))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

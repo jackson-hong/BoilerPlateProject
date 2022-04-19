@@ -73,6 +73,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim(jwtProperties.getClaim().getUsername(),principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(jwtProperties.getAlgorithm())); // 원하는 암호화 알고리즘 설정 개발단계에서 리터럴로 boiler 로 설정함.
 
-        response.addHeader(jwtProperties.getCoreHeader(),jwtProperties.getCoreHeaderTypeWithBlankSpace()+jwtToken);
+        response.addHeader(jwtProperties.getCoreHeader(),jwtProperties.getHeaderTypeWithBlankSpace()+jwtToken);
     }
 }

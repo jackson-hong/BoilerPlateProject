@@ -42,7 +42,7 @@ public class JwtProperties {
         private String username;
     }
 
-    public String getCoreHeaderTypeWithBlankSpace(){
-        return coreHeader+BLANK_SPACE;
+    public String getHeaderTypeWithBlankSpace(){
+        return getHeaderType()+BLANK_SPACE;
     }
 }
