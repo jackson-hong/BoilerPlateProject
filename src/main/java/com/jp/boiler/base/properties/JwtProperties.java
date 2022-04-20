@@ -28,7 +28,8 @@ public class JwtProperties {
     private String algorithm;
     private String coreHeader;
     private String headerType;
-    private int refreshTime;
+    private Long refreshTime;
+    private String swaggerToken;
     private Claim claim;
 
     private static final String BLANK_SPACE = " ";
