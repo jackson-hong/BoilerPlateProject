@@ -66,15 +66,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("[Login Request Success]");
        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
-        /*String jwtToken = JWT.create()
-                .withSubject(jwtProperties.getSubject()) // 제목
-                .withExpiresAt( new Date(System.currentTimeMillis() + jwtProperties.getRefreshTime() )) // 토큰 유효기간 설정
-                .withClaim(jwtProperties.getClaim().getId(),principalDetails.getUser().getId()) // key value 값으로 저장하고자 하는 값 원하는 값을 넣으면 된다.
-                .withClaim(jwtProperties.getClaim().getUsername(),principalDetails.getUser().getUsername())
-                .sign(Algorithm.HMAC512(jwtProperties.getAlgorithm())); // 원하는 암호화 알고리즘 설정 개발단계에서 리터럴로 boiler 로 설정함.*/
         request.setAttribute(jwtProperties.getClaim().getId(), principalDetails.getUser().getId());
         request.setAttribute(jwtProperties.getClaim().getUsername(),principalDetails.getUser().getUsername());
         request.getRequestDispatcher("/jp/api/v1/login/jwt").forward(request,response);
-        /*response.sendRedirect("/jp/api/v1/login");*/
+
     }
 }

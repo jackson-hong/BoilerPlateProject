@@ -32,7 +32,6 @@ public class UserController {
     @PostMapping("/login/jwt")
     @ApiIgnore
     public ResponseData<UserPayload> loginSuccessHandler(HttpServletResponse response, HttpServletRequest request){
-
         return ResponseData.success(principalDetailsService.buildLoginSuccessResData(response,request));
     }
 
