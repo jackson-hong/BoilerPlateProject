@@ -8,10 +8,11 @@ import com.jp.boiler.base.service.auth.PrincipalDetailsService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Tag(name = "[유저] 회원 컨트롤러")
@@ -26,6 +27,13 @@ public class UserController {
     @ApiCode("USER-001")
     public ResponseData<UserPayload> signUp(@RequestBody @Validated UserParam userParam){
         return ResponseData.success(principalDetailsService.userDataHandler(userParam));
+    }
+
+    @PostMapping("/login/jwt")
+    @ApiIgnore
+    public ResponseData<UserPayload> loginSuccessHandler(HttpServletResponse response, HttpServletRequest request){
+
+        return ResponseData.success(principalDetailsService.buildLoginSuccessResData(response,request));
     }
 
 }

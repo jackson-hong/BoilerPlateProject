@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/swagger/**",
             "/h2-console/**",
-            "/jp/api/v1/join"
+            "/jp/api/v1/join",
+            "/jp/api/v1/login",
     };
 
     @Override
