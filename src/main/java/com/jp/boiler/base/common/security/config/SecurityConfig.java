@@ -6,6 +6,7 @@ import com.jp.boiler.base.controller.param.roles.Role;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import com.jp.boiler.base.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(corsFilter) // cors 정책 제외
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtProperties))
+                .addFilter(jwtAuthenticationFilter())
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository, jwtProperties))
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -68,5 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user-test").hasRole(Role.ROLE_USER.getSecurityRoleValue())
                 .antMatchers("/manager-test").hasRole(Role.ROLE_MANAGER.getSecurityRoleValue())
         ;
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtProperties);
+        jwtAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        return jwtAuthenticationFilter;
     }
 }
