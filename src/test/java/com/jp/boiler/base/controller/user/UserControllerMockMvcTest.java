@@ -29,7 +29,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.Objects;
 
 import static com.jp.boiler.base.common.utils.jwt.JwtClaimUtil.extractClaimByKey;
 import static com.jp.boiler.base.common.utils.jwt.JwtClaimUtil.extractDecodedToken;
@@ -155,9 +158,19 @@ public class UserControllerMockMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        HttpServletResponse response = loginResult.getResponse();
+        HttpServletRequest request = loginResult.getRequest();
+        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
+
+        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+                .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
+                .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
+        )).andDo(print())
+        .andReturn();
+
+        HttpServletResponse redirectedResponse = forwardedLoginResult.getResponse();
+
         // token 받아옴.
-        String token = response.getHeader(jwtProperties.getCoreHeader());
+        String token = redirectedResponse.getHeader(jwtProperties.getCoreHeader());
         token = extractToken(token);
         DecodedJWT decodedToken = extractDecodedToken(token);
         String username = extractClaimByKey(decodedToken,jwtProperties.getClaim().getUsername());
@@ -199,9 +212,19 @@ public class UserControllerMockMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        HttpServletResponse response = loginResult.getResponse();
+        HttpServletRequest request = loginResult.getRequest();
+        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
+
+        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+                        .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
+                        .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
+                        )).andDo(print())
+                .andReturn();
+
+        HttpServletResponse redirectedResponse = forwardedLoginResult.getResponse();
+
         // token 받아옴.
-        String token = response.getHeader(jwtProperties.getCoreHeader());
+        String token = redirectedResponse.getHeader(jwtProperties.getCoreHeader());
 
         mockMvc.perform(post("/user-test").header(jwtProperties.getCoreHeader(),token))
                 .andDo(print())
@@ -244,9 +267,19 @@ public class UserControllerMockMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        HttpServletResponse response = loginResult.getResponse();
+        HttpServletRequest request = loginResult.getRequest();
+        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
+
+        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+                        .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
+                        .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
+                        )).andDo(print())
+                .andReturn();
+
+        HttpServletResponse redirectedResponse = forwardedLoginResult.getResponse();
+
         // token 받아옴.
-        String token = response.getHeader(jwtProperties.getCoreHeader());
+        String token = redirectedResponse.getHeader(jwtProperties.getCoreHeader());
 
         mockMvc.perform(post("/manager-test").header(jwtProperties.getCoreHeader(),token))
                 .andDo(print())
@@ -288,9 +321,19 @@ public class UserControllerMockMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        HttpServletResponse response = loginResult.getResponse();
+        HttpServletRequest request = loginResult.getRequest();
+        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
+
+        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+                        .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
+                        .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
+                        )).andDo(print())
+                .andReturn();
+
+        HttpServletResponse redirectedResponse = forwardedLoginResult.getResponse();
+
         // token 받아옴.
-        String token = response.getHeader(jwtProperties.getCoreHeader());
+        String token = redirectedResponse.getHeader(jwtProperties.getCoreHeader());
 
         mockMvc.perform(post("/admin-test").header(jwtProperties.getCoreHeader(),token))
                 .andDo(print())

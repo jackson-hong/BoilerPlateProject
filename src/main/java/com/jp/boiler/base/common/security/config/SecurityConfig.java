@@ -35,13 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger/**",
             "/h2-console/**",
             "/jp/api/v1/join",
-            "/jp/api/v1/login",
+            "/jp/api/v1/login/**"
+            ,
     };
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(AUTH_WHITELIST);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,16 +54,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/jp/api/v1/**").permitAll()
-
-
-
-
+                .antMatchers(AUTH_WHITELIST).permitAll()
 
                 // 테스트용 url
                 .antMatchers("/admin-test").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
                 .antMatchers("/user-test").hasRole(Role.ROLE_USER.getSecurityRoleValue())
                 .antMatchers("/manager-test").hasRole(Role.ROLE_MANAGER.getSecurityRoleValue())
+                .anyRequest().authenticated()
         ;
     }
 

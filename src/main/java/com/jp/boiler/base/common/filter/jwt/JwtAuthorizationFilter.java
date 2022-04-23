@@ -50,41 +50,40 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtHeader = request.getHeader(jwtProperties.getCoreHeader());
 
-        if(isNotJwtHeaderValid(jwtHeader)){
-            response.setStatus(403);
-            return;
+        if(hasToken(jwtHeader)){
+
+            String token = extractToken(jwtHeader);
+
+            DecodedJWT decodedToken = extractDecodedToken(token);
+
+            // 정상 서명
+            if(isValidToken(decodedToken)){
+
+                String username = extractClaimByKey(decodedToken,jwtProperties.getClaim().getUsername());
+
+                User userEntity = userRepository.findByUsername(username);
+
+                // Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
+                PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+
+                // 비밀번호는 null 을 설정함 현재는 로그인 요청이 아님 username 이 null 이 아니기 때문에 정상적 서명이 이뤄졌다는것으로 간주함.
+                // 서명이 정상일 경우 Authentication 객체를 만들어준다.
+                Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails,null, principalDetails.getAuthorities());
+
+                SecurityContextHolder.getContext().setAuthentication(authentication); // -> 강제로 시큐리티 세션에 접근하여 authentication 객체를 저장함
+
+            }
         }
 
-        String token = extractToken(jwtHeader);
-
-        DecodedJWT decodedToken = extractDecodedToken(token);
-
-        // 정상 서명
-        if(isValidToken(decodedToken)){
-
-            String username = extractClaimByKey(decodedToken,jwtProperties.getClaim().getUsername());
-
-            User userEntity = userRepository.findByUsername(username);
-
-            // Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
-            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
-
-            // 비밀번호는 null 을 설정함 현재는 로그인 요청이 아님 username 이 null 이 아니기 때문에 정상적 서명이 이뤄졌다는것으로 간주함.
-            // 서명이 정상일 경우 Authentication 객체를 만들어준다.
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails,null, principalDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication); // -> 강제로 시큐리티 세션에 접근하여 authentication 객체를 저장함
-
-            chain.doFilter(request,response);
-        }
+        chain.doFilter(request,response);
     }
 
     private String extractToken(String rawBearerToken){
         return rawBearerToken.replace(jwtProperties.getHeaderTypeWithBlankSpace(),"");
     }
 
-    private boolean isNotJwtHeaderValid(String jwtHeader){
-        return jwtHeader == null || !jwtHeader.startsWith(jwtProperties.getHeaderType());
+    private boolean hasToken(String jwtHeader){
+        return jwtHeader != null && jwtHeader.startsWith(jwtProperties.getHeaderType());
     }
 
     private boolean isValidToken(DecodedJWT decodedToken){
