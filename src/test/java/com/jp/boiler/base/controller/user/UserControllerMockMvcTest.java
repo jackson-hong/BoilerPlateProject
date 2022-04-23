@@ -161,7 +161,7 @@ public class UserControllerMockMvcTest {
         HttpServletRequest request = loginResult.getRequest();
         String forwardedUrl = loginResult.getResponse().getForwardedUrl();
 
-        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+        MvcResult forwardedLoginResult = mockMvc.perform(post(Objects.requireNonNull(loginResult.getResponse().getForwardedUrl()))
                 .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
                 .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
         )).andDo(print())
@@ -213,9 +213,8 @@ public class UserControllerMockMvcTest {
                 .andReturn();
 
         HttpServletRequest request = loginResult.getRequest();
-        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
 
-        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+        MvcResult forwardedLoginResult = mockMvc.perform(post(Objects.requireNonNull(loginResult.getResponse().getForwardedUrl()))
                         .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
                         .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
                         )).andDo(print())
@@ -268,9 +267,8 @@ public class UserControllerMockMvcTest {
                 .andReturn();
 
         HttpServletRequest request = loginResult.getRequest();
-        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
 
-        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+        MvcResult forwardedLoginResult = mockMvc.perform(post(Objects.requireNonNull(loginResult.getResponse().getForwardedUrl()))
                         .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
                         .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
                         )).andDo(print())
@@ -322,9 +320,8 @@ public class UserControllerMockMvcTest {
                 .andReturn();
 
         HttpServletRequest request = loginResult.getRequest();
-        String forwardedUrl = loginResult.getResponse().getForwardedUrl();
 
-        MvcResult forwardedLoginResult = mockMvc.perform(post(loginResult.getResponse().getForwardedUrl())
+        MvcResult forwardedLoginResult = mockMvc.perform(post(Objects.requireNonNull(loginResult.getResponse().getForwardedUrl()))
                         .requestAttr(jwtProperties.getClaim().getId(), request.getAttribute(jwtProperties.getClaim().getId()))
                         .requestAttr(jwtProperties.getClaim().getUsername(), request.getAttribute(jwtProperties.getClaim().getUsername())
                         )).andDo(print())

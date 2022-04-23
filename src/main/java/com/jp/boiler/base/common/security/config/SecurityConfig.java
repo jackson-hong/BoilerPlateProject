@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger/**",
             "/h2-console/**",
             "/jp/api/v1/join",
-            "/jp/api/v1/login/**"
+            "/jp/api/v1/login/**",
+            "/jp/api/v1/test"
             ,
     };
 
