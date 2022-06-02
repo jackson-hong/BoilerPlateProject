@@ -69,6 +69,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 // 비밀번호는 null 을 설정함 현재는 로그인 요청이 아님 username 이 null 이 아니기 때문에 정상적 서명이 이뤄졌다는것으로 간주함.
                 // 서명이 정상일 경우 Authentication 객체를 만들어준다.
                 Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails,null, principalDetails.getAuthorities());
+                authentication.setAuthenticated(true);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication); // -> 강제로 시큐리티 세션에 접근하여 authentication 객체를 저장함
 
