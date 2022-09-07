@@ -9,10 +9,7 @@ import com.jp.boiler.base.controller.param.user.UserParam;
 import com.jp.boiler.base.domain.auth.User;
 import com.jp.boiler.base.domain.auth.UserRepository;
 import com.jp.boiler.base.properties.JwtProperties;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -44,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Disabled
 public class UserControllerMockMvcTest {
 
     @Autowired
