@@ -147,7 +147,6 @@ public class SecurityConfigTest {
 
         @Test
         @DisplayName("Token와 함께 요청하는 경우")
-        @Disabled
         void requestWithToken() throws Exception {
             // Given
             JacksonRequest jacksonRequest = new JacksonRequest("jackson");
