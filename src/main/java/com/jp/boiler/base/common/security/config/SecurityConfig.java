@@ -60,8 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin-test").hasRole(Role.ROLE_ADMIN.getSecurityRoleValue())
                 .antMatchers("/user-test").hasRole(Role.ROLE_USER.getSecurityRoleValue())
                 .antMatchers("/manager-test").hasRole(Role.ROLE_MANAGER.getSecurityRoleValue())
-                .anyRequest().authenticated()
-        ;
+                .anyRequest().authenticated();
     }
 
     @Bean
