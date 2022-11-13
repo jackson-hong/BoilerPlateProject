@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2-console/**",
             "/jp/api/v1/join",
             "/jp/api/v1/login/**",
-            "/jp/api/v1/test"
-            ,
+            "/jp/api/v1/test",
+            "/jenkins"
     };
 
     @Override

@@ -1,12 +1,36 @@
-<configuration scan="true" scanPeriod="30 seconds">
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_DIR" value="/Users/patrickyoo/data/logs"></property>
+    <property name="LOG_PREFIX" value="base"></property>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${LOG_PREFIX}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%logger{36}.%method:line%line][%X{trxId}] %X{apiCode} - %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archived/${LOG_PREFIX}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
         </encoder>
     </appender>
-    <root name="org.springframework" level="info" additivity="false">
+
+    <logger name="org.springframework" level="INFO" >
         <appender-ref ref="STDOUT" />
-    </root>
-    <logger name="org.springframework.web.filter" level="debug">
+        <appender-ref ref="FILE" />
     </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+    </root>
 </configuration>
+
