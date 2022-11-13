@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.jp.boiler</groupId>
     <artifactId>base</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>boilerPlate</version>
     <name>base</name>
     <description>Demo project for Spring Boot</description>

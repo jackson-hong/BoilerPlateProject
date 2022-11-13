@@ -6,7 +6,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${LOG_PREFIX}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%highlight%-5level][%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -19,7 +19,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{HH:mm:ss.SSS}][%-5level][%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}] %highlight[%-5level] [%X{trxId}][%logger{36}.%method:line%line] %X{apiCode} - %msg%n</pattern>
         </encoder>
     </appender>
 
